@@ -35,16 +35,7 @@ static void printGraph(int **cells, int size) {
     }
 }
 
-bool compareGraph(int **cell, int **temp, int size) {
-    for(int i=0;i<size;i++) {
-        for(int j=0;j<size;j++) {
-            if(cell[i][j] != temp[i][j]) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
+bool compareGraph()
 
 int **allocateArray(int C, int R) {     //Remind reference from hw1.c from professor
     int i;
@@ -78,7 +69,7 @@ void freeArray(int **array) {       //Remind reference from hw1.c from professor
     free(array);
 }
 
-bool updateCell(int **cell,int size) {
+void updateCell(int **cell,int size) {
     int **temp = NULL;
     temp = allocateArray(size,size);
     initializeArray(temp,size);
@@ -107,12 +98,7 @@ bool updateCell(int **cell,int size) {
             cell[i][j] = temp[i][j];
         }
     }
-    bool flag = false;
-    if(compareGraph(cell,temp,size) != true) {
-        flag = true;
-    }
     freeArray(temp);
-    return flag;
 }
 
 
@@ -142,14 +128,9 @@ int main(int argc, char **argv) {
         }
     }
     for(int i=0; i<max_gen;i++) {
-        bool result;
         printf("In Gen# %d\n",i);
         printGraph(cells,size);
-        result = updateCell(cells,size);
-        if(result == true) {
-            printArray(cells,size);
-            break;
-        }
+        updateCell(cells,size);
     }
         
     freeArray(cells);

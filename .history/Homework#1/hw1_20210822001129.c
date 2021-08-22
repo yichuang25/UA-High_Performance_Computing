@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
-#include <stdbool.h>
 
 static void printArray(int **array, int size) {
     for(int i=0;i<size;i++) {
@@ -33,17 +32,6 @@ static void printGraph(int **cells, int size) {
         }
         printf("\n");
     }
-}
-
-bool compareGraph(int **cell, int **temp, int size) {
-    for(int i=0;i<size;i++) {
-        for(int j=0;j<size;j++) {
-            if(cell[i][j] != temp[i][j]) {
-                return false;
-            }
-        }
-    }
-    return true;
 }
 
 int **allocateArray(int C, int R) {     //Remind reference from hw1.c from professor
@@ -78,7 +66,7 @@ void freeArray(int **array) {       //Remind reference from hw1.c from professor
     free(array);
 }
 
-bool updateCell(int **cell,int size) {
+void updateCell(int **cell,int size) {
     int **temp = NULL;
     temp = allocateArray(size,size);
     initializeArray(temp,size);
@@ -89,16 +77,6 @@ bool updateCell(int **cell,int size) {
             Neighbour = cell[i-1][j-1] + cell[i-1][j] + cell[i-1][j+1]+
                         cell[i][j-1] + cell[i][j+1] +
                         cell[i+1][j-1] + cell[i+1][j] + cell[i+1][j+1];
-            
-            if(Neighbour == 3) {
-                temp[i][j] = 1;
-            }
-            else if (Neighbour == 2) {
-                temp[i][j] = cell[i][j];
-            }
-            else {
-                temp[i][j] = 0;
-            }
         }
     }
 
@@ -107,12 +85,7 @@ bool updateCell(int **cell,int size) {
             cell[i][j] = temp[i][j];
         }
     }
-    bool flag = false;
-    if(compareGraph(cell,temp,size) != true) {
-        flag = true;
-    }
     freeArray(temp);
-    return flag;
 }
 
 
@@ -141,16 +114,9 @@ int main(int argc, char **argv) {
             cells[i][j] = rand() % 2;
         }
     }
-    for(int i=0; i<max_gen;i++) {
-        bool result;
-        printf("In Gen# %d\n",i);
-        printGraph(cells,size);
-        result = updateCell(cells,size);
-        if(result == true) {
-            printArray(cells,size);
-            break;
-        }
-    }
+
+    printGraph(cells,size);
+    //printArray(cells,size);
         
     freeArray(cells);
 
