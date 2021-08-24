@@ -142,7 +142,6 @@ int main(int argc, char **argv) {
         printf("Usage: %s <SIZE> <MAX_GEN>\n",argv[0]);
         exit(-1);
     }
-    //TODO:create test case
 
     double start,end;
 

@@ -142,7 +142,6 @@ int main(int argc, char **argv) {
         printf("Usage: %s <SIZE> <MAX_GEN>\n",argv[0]);
         exit(-1);
     }
-    //TODO:create test case
 
     double start,end;
 
@@ -159,14 +158,13 @@ int main(int argc, char **argv) {
     
     
     randomlize(cells,size);
-    //printGraph(cells,size);
     
     start = gettime();
 
     for(int i=0; i<max_gen;i++) {
         bool result;
-        //printf("In Gen# %d\n",i);
-        //printGraph(cells,size);
+        printf("In Gen# %d\n",i);
+        printGraph(cells,size);
         result = updateCell(cells,size);
         if(result == true) {
             //printf("In Gen# %d\n",i+1);
@@ -176,7 +174,7 @@ int main(int argc, char **argv) {
     }
 
     end = gettime();
-    //printGraph(cells,size);
+        
     freeArray(cells);
     printf("Time taken for size %d is %lf seconds\n", size-2, end-start);
 

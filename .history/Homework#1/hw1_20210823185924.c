@@ -35,7 +35,7 @@ static void printGraph(int **cells, int size) {
     }
 }
 
-bool compareGraph(int **cell, int **temp, int size) { //compare graph is same->true / different->false
+bool compareGraph(int **cell, int **temp, int size) {
     for(int i=0;i<size;i++) {
         for(int j=0;j<size;j++) {
             if(cell[i][j] != temp[i][j]) {
@@ -78,7 +78,7 @@ void freeArray(int **array) {       //Remind reference from hw1.c from professor
     free(array);
 }
 
-bool updateCell(int **cell,int size) { //if same -> true
+bool updateCell(int **cell,int size) {
     int **temp = NULL;
     temp = allocateArray(size,size);
     initializeArray(temp,size);
@@ -102,9 +102,9 @@ bool updateCell(int **cell,int size) { //if same -> true
         }
     }
 
-    if(compareGraph(cell,temp,size) == true) {
-        freeArray(temp);
-        return true;
+    bool flag = false;
+    if(compareGraph(cell,temp,size) != true) {
+        flag = true;
     }
 
     for(int i=1;i<size-1;i++) {
@@ -114,7 +114,7 @@ bool updateCell(int **cell,int size) { //if same -> true
     }
     
     freeArray(temp);
-    return false;
+    return flag;
 }
 
 double gettime() {
@@ -125,15 +125,6 @@ double gettime() {
   return( (double)tval.tv_sec + (double)tval.tv_usec/1000000.0 );
 }
 
-void randomlize(int **array, int size) {
-    srand(time(NULL));
-    for(int i=1;i<size-1;i++) {
-        for(int j=1;j<size-1;j++) {
-            array[i][j] = rand() % 2;
-        }
-    }
-}
-
 
 int main(int argc, char **argv) {
 
@@ -142,7 +133,6 @@ int main(int argc, char **argv) {
         printf("Usage: %s <SIZE> <MAX_GEN>\n",argv[0]);
         exit(-1);
     }
-    //TODO:create test case
 
     double start,end;
 
@@ -158,27 +148,30 @@ int main(int argc, char **argv) {
 
     
     
-    randomlize(cells,size);
-    //printGraph(cells,size);
-    
+    //Randomly assign live cell
+    srand(time(NULL));
+    for(int i=1;i<size-1;i++) {
+        for(int j=1;j<size-1;j++) {
+            cells[i][j] = rand() % 2;
+        }
+    }
     start = gettime();
 
     for(int i=0; i<max_gen;i++) {
         bool result;
-        //printf("In Gen# %d\n",i);
-        //printGraph(cells,size);
+        printf("In Gen# %d\n",i);
+        printGraph(cells,size);
         result = updateCell(cells,size);
         if(result == true) {
-            //printf("In Gen# %d\n",i+1);
-            //printGraph(cells,size);
+            printArray(cells,size);
             break;
         }
     }
 
     end = gettime();
-    //printGraph(cells,size);
+        
     freeArray(cells);
-    printf("Time taken for size %d is %lf seconds\n", size-2, end-start);
+    printf("Time taken for size %d = %lf seconds\n", size-2, end-start);
 
     return 0;
 }

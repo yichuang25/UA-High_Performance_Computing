@@ -125,15 +125,6 @@ double gettime() {
   return( (double)tval.tv_sec + (double)tval.tv_usec/1000000.0 );
 }
 
-void randomlize(int **array, int size) {
-    srand(time(NULL));
-    for(int i=1;i<size-1;i++) {
-        for(int j=1;j<size-1;j++) {
-            array[i][j] = rand() % 2;
-        }
-    }
-}
-
 
 int main(int argc, char **argv) {
 
@@ -142,7 +133,6 @@ int main(int argc, char **argv) {
         printf("Usage: %s <SIZE> <MAX_GEN>\n",argv[0]);
         exit(-1);
     }
-    //TODO:create test case
 
     double start,end;
 
@@ -158,27 +148,31 @@ int main(int argc, char **argv) {
 
     
     
-    randomlize(cells,size);
-    //printGraph(cells,size);
-    
+    //Randomly assign live cell
+    srand(time(NULL));
+    for(int i=1;i<size-1;i++) {
+        for(int j=1;j<size-1;j++) {
+            cells[i][j] = rand() % 2;
+        }
+    }
     start = gettime();
 
     for(int i=0; i<max_gen;i++) {
         bool result;
-        //printf("In Gen# %d\n",i);
-        //printGraph(cells,size);
+        printf("In Gen# %d\n",i);
+        printGraph(cells,size);
         result = updateCell(cells,size);
         if(result == true) {
-            //printf("In Gen# %d\n",i+1);
-            //printGraph(cells,size);
+            printf("In Gen# %d\n",i+1);
+            printGraph(cells,size);
             break;
         }
     }
 
     end = gettime();
-    //printGraph(cells,size);
+        
     freeArray(cells);
-    printf("Time taken for size %d is %lf seconds\n", size-2, end-start);
+    printf("Time taken for size %d = %lf seconds\n", size-2, end-start);
 
     return 0;
 }
