@@ -78,7 +78,7 @@ double gettime() { // get the current time
 }
 
 void randomlize(int **array, int size) { // randomlize each cell in the graph
-    srand(2);
+    srand(time(0));
     for(int i=1;i<size-1;i++) {
         for(int j=1;j<size-1;j++) {
             array[i][j] = rand() % 2;

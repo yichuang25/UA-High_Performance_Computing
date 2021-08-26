@@ -19,7 +19,6 @@ static void printArray(int **array, int size) { //print the array with 0(dead) a
         }
         printf("\n");
     }
-    printf("\n");
 }
 
 static void printGraph(int **cells, int size) { //print the array with *(alive)
@@ -69,6 +68,38 @@ void freeArray(int **array) {       //release the dynamically allocated memory
     free(array);
 }
 
+bool updateCell(int **cell,int **cell2,int size) { //update the graph to next generation, if the graph is same will return true
+
+    int Neighbour = 0;
+    bool flag = false;
+    for(int i=1;i<size-1;i++) {
+        for(int j=1;j<size-1;j++) {
+            Neighbour = cell[i-1][j-1] + cell[i-1][j] + cell[i-1][j+1]+
+                        cell[i][j-1] + cell[i][j+1] +
+                        cell[i+1][j-1] + cell[i+1][j] + cell[i+1][j+1];
+            
+            if(Neighbour == 3) {
+                cell2[i][j] = 1;
+            }
+            else if (Neighbour == 2) {
+                cell2[i][j] = cell[i][j];
+            }
+            else {
+                cell2[i][j] = 0;
+            }
+
+            if(cell[i][j] != cell2[i][j]) {
+                flag = true;
+            }
+        }
+    }
+    int** temp = cell2;
+    cell2 = cell;
+    cell = temp;
+
+    return flag;
+}
+
 double gettime() { // get the current time
   struct timeval tval;
 
@@ -78,14 +109,13 @@ double gettime() { // get the current time
 }
 
 void randomlize(int **array, int size) { // randomlize each cell in the graph
-    srand(2);
+    srand(0);
     for(int i=1;i<size-1;i++) {
         for(int j=1;j<size-1;j++) {
             array[i][j] = rand() % 2;
         }
     }
 }
-
 
 
 int main(int argc, char **argv) {
@@ -115,43 +145,17 @@ int main(int argc, char **argv) {
     //printGraph(cells,size);
     
     start = gettime();
-    //printf("In Gen# 0\n");
-    //printArray(life1,size);
+    printf("In Gen# 0\n");
+    printArray(life1,size);
     for(int i=1; i<=max_gen;i++) {
-        int neighbor = 0;
-        bool result = false;
-        for(int i=1;i<size-1;i++) {
-            for(int j=1;j<size-1;j++) {
-                neighbor = life1[i-1][j-1] + life1[i-1][j] + life1[i-1][j+1]+
-                           life1[i][j-1] + life1[i][j+1] +
-                           life1[i+1][j-1] + life1[i+1][j] + life1[i+1][j+1];
-                
-                if(neighbor == 3) {
-                    life2[i][j] = 1;
-                }
-                else if(neighbor == 2) {
-                    life2[i][j] = life1[i][j];
-                }
-                else {
-                    life2[i][j] = 0;
-                }
-
-                if(life1[i][j] != life2[i][j]) {
-                    result = true;
-                }
-            }
-        }
-
-        int** temp = life2;
-        life2 = life1;
-        life1 = temp;
+        bool result;
         
-
-        if(result == false) {
+        result = updateCell(life1,life2,size);
+        if(result == true) {
             break;
         }
-        //printf("In Gen# %d\n",i);
-        //printArray(life1,size);
+        printf("In Gen# %d\n",i);
+        printArray(life1,size);
     }
 
     end = gettime();

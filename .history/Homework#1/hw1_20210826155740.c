@@ -19,7 +19,6 @@ static void printArray(int **array, int size) { //print the array with 0(dead) a
         }
         printf("\n");
     }
-    printf("\n");
 }
 
 static void printGraph(int **cells, int size) { //print the array with *(alive)
@@ -36,6 +35,16 @@ static void printGraph(int **cells, int size) { //print the array with *(alive)
     }
 }
 
+bool compareGraph(int **cell, int **temp, int size) { //compare graph is same->true / different->false
+    for(int i=0;i<size;i++) {
+        for(int j=0;j<size;j++) {
+            if(cell[i][j] != temp[i][j]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
 int **allocateArray(int C, int R) {     //dynamically allocate the memory
     int i;
@@ -69,6 +78,45 @@ void freeArray(int **array) {       //release the dynamically allocated memory
     free(array);
 }
 
+bool updateCell(int **cell,int size) { //update the graph to next generation, if the graph is same will return true
+    int **temp = NULL;
+    temp = allocateArray(size,size);
+    initializeArray(temp,size);
+
+    int Neighbour = 0;
+    for(int i=1;i<size-1;i++) {
+        for(int j=1;j<size-1;j++) {
+            Neighbour = cell[i-1][j-1] + cell[i-1][j] + cell[i-1][j+1]+
+                        cell[i][j-1] + cell[i][j+1] +
+                        cell[i+1][j-1] + cell[i+1][j] + cell[i+1][j+1];
+            
+            if(Neighbour == 3) {
+                temp[i][j] = 1;
+            }
+            else if (Neighbour == 2) {
+                temp[i][j] = cell[i][j];
+            }
+            else {
+                temp[i][j] = 0;
+            }
+        }
+    }
+
+    if(compareGraph(cell,temp,size) == true) {
+        freeArray(temp);
+        return true;
+    }
+
+    for(int i=1;i<size-1;i++) {
+        for(int j=1;j<size-1;j++) {
+            cell[i][j] = temp[i][j];
+        }
+    }
+    
+    freeArray(temp);
+    return false;
+}
+
 double gettime() { // get the current time
   struct timeval tval;
 
@@ -78,14 +126,13 @@ double gettime() { // get the current time
 }
 
 void randomlize(int **array, int size) { // randomlize each cell in the graph
-    srand(2);
+    srand(0);
     for(int i=1;i<size-1;i++) {
         for(int j=1;j<size-1;j++) {
             array[i][j] = rand() % 2;
         }
     }
 }
-
 
 
 int main(int argc, char **argv) {
@@ -115,49 +162,22 @@ int main(int argc, char **argv) {
     //printGraph(cells,size);
     
     start = gettime();
-    //printf("In Gen# 0\n");
-    //printArray(life1,size);
+    printf("In Gen# 0\n");
+    printArray(life1,size);
     for(int i=1; i<=max_gen;i++) {
-        int neighbor = 0;
-        bool result = false;
-        for(int i=1;i<size-1;i++) {
-            for(int j=1;j<size-1;j++) {
-                neighbor = life1[i-1][j-1] + life1[i-1][j] + life1[i-1][j+1]+
-                           life1[i][j-1] + life1[i][j+1] +
-                           life1[i+1][j-1] + life1[i+1][j] + life1[i+1][j+1];
-                
-                if(neighbor == 3) {
-                    life2[i][j] = 1;
-                }
-                else if(neighbor == 2) {
-                    life2[i][j] = life1[i][j];
-                }
-                else {
-                    life2[i][j] = 0;
-                }
-
-                if(life1[i][j] != life2[i][j]) {
-                    result = true;
-                }
-            }
-        }
-
-        int** temp = life2;
-        life2 = life1;
-        life1 = temp;
+        bool result;
         
-
-        if(result == false) {
+        result = updateCell(life1,size);
+        if(result == true) {
             break;
         }
-        //printf("In Gen# %d\n",i);
-        //printArray(life1,size);
+        printf("In Gen# %d\n",i);
+        printArray(life1,size);
     }
 
     end = gettime();
     //printGraph(cells,size);
     freeArray(life1);
-    freeArray(life2);
     printf("Time taken for size %d is %lf seconds\n", size-2, end-start);
 
     return 0;

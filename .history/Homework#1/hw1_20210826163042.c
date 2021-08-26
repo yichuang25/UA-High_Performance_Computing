@@ -115,8 +115,8 @@ int main(int argc, char **argv) {
     //printGraph(cells,size);
     
     start = gettime();
-    //printf("In Gen# 0\n");
-    //printArray(life1,size);
+    printf("In Gen# 0\n");
+    printArray(life1,size);
     for(int i=1; i<=max_gen;i++) {
         int neighbor = 0;
         bool result = false;
@@ -150,8 +150,8 @@ int main(int argc, char **argv) {
         if(result == false) {
             break;
         }
-        //printf("In Gen# %d\n",i);
-        //printArray(life1,size);
+        printf("In Gen# %d\n",i);
+        printArray(life1,size);
     }
 
     end = gettime();
