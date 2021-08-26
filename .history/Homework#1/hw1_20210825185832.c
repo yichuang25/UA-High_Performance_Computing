@@ -78,7 +78,7 @@ void freeArray(int **array) {       //release the dynamically allocated memory
     free(array);
 }
 
-bool updateCell(int **cell,int size) { //update the graph to next generation, if the graph is same will return true
+bool updateCell(int **cell,int size) { //if same -> true
     int **temp = NULL;
     temp = allocateArray(size,size);
     initializeArray(temp,size);
@@ -117,7 +117,7 @@ bool updateCell(int **cell,int size) { //update the graph to next generation, if
     return false;
 }
 
-double gettime() { // get the current time
+double gettime() {
   struct timeval tval;
 
   gettimeofday(&tval, NULL);
@@ -125,7 +125,7 @@ double gettime() { // get the current time
   return( (double)tval.tv_sec + (double)tval.tv_usec/1000000.0 );
 }
 
-void randomlize(int **array, int size) { // randomlize each cell in the graph
+void randomlize(int **array, int size) {
     srand(time(NULL));
     for(int i=1;i<size-1;i++) {
         for(int j=1;j<size-1;j++) {
@@ -153,6 +153,17 @@ int main(int argc, char **argv) {
 
     //initialze array
     initializeArray(cells,size);
+
+    printf("Test case #1: still life\n");
+    printf("Still life #1: Block\n");
+    
+    printf("Test case #2: Oscillators\n");
+
+    printf("Test case #3: Spaceships\n");
+
+    printf("Test case #4: Randomlized\n");
+
+    
     
     randomlize(cells,size);
     //printGraph(cells,size);

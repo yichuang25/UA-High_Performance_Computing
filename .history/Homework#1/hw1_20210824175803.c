@@ -12,7 +12,7 @@
 #include <sys/time.h>
 #include <stdbool.h>
 
-static void printArray(int **array, int size) { //print the array with 0(dead) and 1 (alive)
+static void printArray(int **array, int size) {
     for(int i=0;i<size;i++) {
         for(int j=0;j<size;j++) {
             printf("%d ", array[i][j]);
@@ -21,7 +21,7 @@ static void printArray(int **array, int size) { //print the array with 0(dead) a
     }
 }
 
-static void printGraph(int **cells, int size) { //print the array with *(alive)
+static void printGraph(int **cells, int size) {
     for(int i=1;i<size-1;i++) {
         for(int j=1;j<size-1;j++) {
             if(cells[i][j] == 0) {
@@ -46,7 +46,7 @@ bool compareGraph(int **cell, int **temp, int size) { //compare graph is same->t
     return true;
 }
 
-int **allocateArray(int C, int R) {     //dynamically allocate the memory
+int **allocateArray(int C, int R) {     //Remind reference from hw1.c from professor
     int i;
     int *p, **a;
 
@@ -65,7 +65,7 @@ int **allocateArray(int C, int R) {     //dynamically allocate the memory
     
 }
 
-void initializeArray(int **array, int size) { // initialize whole array with all 0
+void initializeArray(int **array, int size) {
     for(int i=0;i<size;i++) {
         for(int j=0;j<size;j++) {
             array[i][j] = 0;
@@ -73,12 +73,12 @@ void initializeArray(int **array, int size) { // initialize whole array with all
     }
 }
 
-void freeArray(int **array) {       //release the dynamically allocated memory
+void freeArray(int **array) {       //Remind reference from hw1.c from professor
     free(&array[0][0]);
     free(array);
 }
 
-bool updateCell(int **cell,int size) { //update the graph to next generation, if the graph is same will return true
+bool updateCell(int **cell,int size) { //if same -> true
     int **temp = NULL;
     temp = allocateArray(size,size);
     initializeArray(temp,size);
@@ -117,7 +117,7 @@ bool updateCell(int **cell,int size) { //update the graph to next generation, if
     return false;
 }
 
-double gettime() { // get the current time
+double gettime() {
   struct timeval tval;
 
   gettimeofday(&tval, NULL);
@@ -125,7 +125,7 @@ double gettime() { // get the current time
   return( (double)tval.tv_sec + (double)tval.tv_usec/1000000.0 );
 }
 
-void randomlize(int **array, int size) { // randomlize each cell in the graph
+void randomlize(int **array, int size) {
     srand(time(NULL));
     for(int i=1;i<size-1;i++) {
         for(int j=1;j<size-1;j++) {
@@ -142,6 +142,10 @@ int main(int argc, char **argv) {
         printf("Usage: %s <SIZE> <MAX_GEN>\n",argv[0]);
         exit(-1);
     }
+    //TODO:create test case
+    printf("Type the test you want: \n");
+    
+
     double start,end;
 
     //get size of problem and max generations
@@ -153,6 +157,8 @@ int main(int argc, char **argv) {
 
     //initialze array
     initializeArray(cells,size);
+
+    
     
     randomlize(cells,size);
     //printGraph(cells,size);

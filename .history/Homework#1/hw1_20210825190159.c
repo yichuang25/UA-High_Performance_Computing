@@ -153,6 +153,17 @@ int main(int argc, char **argv) {
 
     //initialze array
     initializeArray(cells,size);
+
+    printf("Test case #1: still life\n");
+    printf("Still life #1: Block\n");
+    
+    printf("Test case #2: Oscillators\n");
+
+    printf("Test case #3: Spaceships\n");
+
+    printf("Test case #4: Randomlized\n");
+
+    
     
     randomlize(cells,size);
     //printGraph(cells,size);
