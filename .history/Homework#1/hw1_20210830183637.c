@@ -3,7 +3,7 @@
 * Email: yhuang87@crimson.ua.edu
 * Course Section: CS 481
 * Homework#: 1
-* Instruction to Compile: gcc -Wall -std=c99 -o hw1 hw1.c
+* Instruction to Compile: gcc -std=c99 -o hw1 hw1.c
 * Instruction to Execute: ./hw1 <size> <max_gen>
 */
 

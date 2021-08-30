@@ -3,7 +3,7 @@
 * Email: yhuang87@crimson.ua.edu
 * Course Section: CS 481
 * Homework#: 1
-* Instruction to Compile: gcc -Wall -std=c99 -o hw1 hw1.c
+* Instruction to Compile: gcc -std=c99 -o hw1 hw1.c
 * Instruction to Execute: ./hw1 <size> <max_gen>
 */
 
@@ -22,7 +22,7 @@ static void printArray(int **array, int size) { //print the array with 0(dead) a
     printf("\n");
 }
 
-int **allocateArray(int C, int R) {     //dynamically allocate the memory (modify from hw1.c from blakboard)
+int **allocateArray(int C, int R) {     //dynamically allocate the memory
     int i;
     int *p, **a;
 
@@ -48,12 +48,12 @@ void initializeArray(int **array, int size) { // initialize whole array with all
     }
 }
 
-void freeArray(int **array) {       //release the dynamically allocated memory (copy from hw1.c from blakboard)
+void freeArray(int **array) {       //release the dynamically allocated memory
     free(&array[0][0]);
     free(array);
 }
 
-double gettime() { // get the current time (copy from hw1.c from blakboard)
+double gettime() { // get the current time
   struct timeval tval;
 
   gettimeofday(&tval, NULL);
@@ -62,7 +62,7 @@ double gettime() { // get the current time (copy from hw1.c from blakboard)
 }
 
 void randomlize(int **array, int size) { // randomlize each cell in the graph
-    srand(1);
+    srand(0);
     for(int i=1;i<size-1;i++) {
         for(int j=1;j<size-1;j++) {
             array[i][j] = rand() % 2;
@@ -101,7 +101,6 @@ int main(int argc, char **argv) {
     start = gettime();
     printf("In Gen# 0\n");
     printArray(life1,size);
-
     for(int i=1; i<=max_gen;i++) {
         int neighbor = 0;
         bool result = false;
@@ -121,7 +120,7 @@ int main(int argc, char **argv) {
                     life2[i][j] = 0;
                 }
 
-                if(life1[i][j] != life2[i][j]) { //check if graph changed
+                if(life1[i][j] != life2[i][j]) {
                     result = true;
                 }
             }
