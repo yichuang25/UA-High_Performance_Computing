@@ -3,17 +3,17 @@
 =====     Queued job information at submit time        =====
 ============================================================
   The submitted file is: myscript.sh
-  The time limit is 00:01:00 HH:MM:SS.
+  The time limit is 12:00:00 HH:MM:SS.
   The target directory is: /home/ualclsa0008/UA-High_Performance_Computing/Homework#2
-  The memory limit is: 2gb
-  The job will start running after: 2021-09-06T15:57:23
-  Job Name: myscriptshSCRIPT
+  The memory limit is: 1gb
+  The job will start running after: 2021-09-06T20:12:42
+  Job Name: 1000-1000
   Virtual queue: class
   QOS: --qos=class
   Constraints: --constraint=dmc
   Command typed:
 /apps/scripts/run_script myscript.sh     
   Queue submit command:
-sbatch --qos=class -J myscriptshSCRIPT --begin=2021-09-06T15:57:23 --requeue --mail-user=yhuang87@crimson.ua.edu -o myscriptshSCRIPT.o$SLURM_JOB_ID -t 00:01:00 -N 1-1 -n 1 --mem-per-cpu=2000 --constraint=dmc 
-  Job number: 638769
+sbatch --qos=class -J 1000-1000 --begin=2021-09-06T20:12:42 --requeue --mail-user=yhuang87@crimson.ua.edu -o 1000-1000.o$SLURM_JOB_ID -t 12:00:00 -N 1-1 -n 1 --mem-per-cpu=1000 --constraint=dmc 
+  Job number: 638824
  

@@ -1,0 +1,25 @@
+setting dmc scratch directory
+ 
+============================================================
+=====         Summary of your script job               =====
+============================================================
+  The script file is: script_5000_5000.sh
+  The time limit is 12:00:00 HH:MM:SS.
+  The target directory is: /home/ualclsa0008/UA-High_Performance_Computing/Homework#2
+  The working directory is:  /scratch-local/ualclsa0008.5000-5000.638827
+  The memory limit is: 4gb
+  The job will start running after: 2021-09-06T20:20:20
+  Job Name: 5000-5000
+  Virtual queue: class
+  QOS: --qos=class
+  Constraints: --constraint=dmc
+  Using  1  cores on master node  dmc6
+  Node list:  dmc6
+  Nodes:  dmc6
+  Command typed:
+/apps/scripts/run_script script_5000_5000.sh     
+  Queue submit command:
+sbatch --qos=class -J 5000-5000 --begin=2021-09-06T20:20:20 --requeue --mail-user=yhuang87@crimson.ua.edu -o 5000-5000.o638827 -t 12:00:00 -N 1-1 -n 1 --mem-per-cpu=4000 --constraint=dmc 
+Time taken for size 5000 is 2216.578860 seconds
+Time taken for size 5000 is 2197.111490 seconds
+Time taken for size 5000 is 2168.190530 seconds
