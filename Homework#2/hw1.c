@@ -62,7 +62,7 @@ double gettime() { // get the current time (copy from hw1.c from blakboard)
 }
 
 void randomlize(int **array, int size) { // randomlize each cell in the graph
-    srand(1);
+    srand(2);
     for(int i=1;i<size-1;i++) {
         for(int j=1;j<size-1;j++) {
             array[i][j] = rand() % 2;
@@ -99,8 +99,8 @@ int main(int argc, char **argv) {
     //printGraph(cells,size);
     
     start = gettime();
-    printf("In Gen# 0\n");
-    printArray(life1,size);
+    //printf("In Gen# 0\n");
+    //printArray(life1,size);
 
     for(int i=1; i<=max_gen;i++) {
         int neighbor = 0;
@@ -135,8 +135,8 @@ int main(int argc, char **argv) {
         if(result == false) {
             break;
         }
-        printf("In Gen# %d\n",i);
-        printArray(life1,size);
+        //printf("In Gen# %d\n",i);
+        //printArray(life1,size);
     }
 
     end = gettime();
