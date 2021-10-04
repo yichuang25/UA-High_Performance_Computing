@@ -2,7 +2,7 @@
 * Name: Yichen Huang
 * Email: yhuang87@crimson.ua.edu
 * Course Section: CS 481
-* Homework#: 1
+* Homework#: 3
 * Instruction to Compile: gcc -Wall -fopenmp -o hw3 hw3.c
 * Instruction to Execute: ./hw3 <size> <max_gen> <num_threads> <output_dir>
 */
@@ -151,38 +151,94 @@ int main(int argc, char* argv[]) {
       	}
     }
 
-    double t1 = gettime();
-    int flag=1;
+	int flag=1;
     int j = 0;
+	int r,c, value;
+	int count = 0;
+
+	printf("In Gen# %d\n",j);
+	printArray(life,N+2);
+
+    double t1 = gettime();
     //start running
-    for(int j=0;j<Max_Gen && flag != 0; j++) {
-		printf("In Gen# %d\n",j);
-		printArray(life,N+2);
-    	flag = 0;
-      	flag = compute(life,temp,N);
+	#pragma omp parallel num_threads(Nthreads) default(none) shared(temp, life, N, Max_Gen, flag) private(j,ptr, r,c,value,count)
+    for(j=0;j<Max_Gen; j++) {
+      	//flag = compute(life,temp,N);
+		#pragma omp critical
+		flag = 0;
+		count = 0;
+		
+		#pragma omp for
+		for (r=1;r<N+1;r++) {
+			for (c=1;c<N+1;c++) {
+				value = life[r-1][c-1] + life[r-1][c] + life[r-1][c+1]
+						+ life[r][c-1] + life[r][c+1]
+						+ life[r+1][c-1] + life[r+1][c] + life[r+1][c+1];
 
-      //swap array
-      	ptr = life;
-      	life = temp;
-      	temp = ptr;
+				if(life[r][c]) {
+					if(value < 2 || value > 3) {
+						temp[r][c] = DIES;
+						count++;
+					}
+					else {
+						temp[r][c] = ALIVE;
+					}
+				}
+				else {
+					if(value == 3) {
+						temp[r][c] = ALIVE;
+						count++;
+					}
+					else {
+						temp[r][c] = DIES;
+					}
+				}
+			}
+		}
+		
+		#pragma omp critical
+		flag += count;
 
-      
-    }
+		//#pragma omp barrier
+		//{
+		//	printf("\ncount=%d in thread%d\n",count,omp_get_thread_num());
+		//}
+		
+		
+		#pragma omp barrier
+		
+		#pragma omp master
+		{
+			ptr = life;
+      		life = temp;
+      		temp = ptr;
+			printf("flag = %d\n",flag);
+			printf("In Gen# %d\n",j+1);
+			printArray(life,N+2);
+		}
+		
+		
+		#pragma omp barrier 
+		
+		
 
-  double t2 = gettime();
-  printf("Time taken %f seconds for %d iterations\n", t2 - t1, j);
+	}
+		
 
-    
+  	double t2 = gettime();
+  	printf("Time taken %f seconds\n", t2 - t1);
 
-  /* Write the final array to output file */
-  printf("Writing output to file: %s\n", filename);
-  writefile(life, N, fptr);
-  fclose(fptr);
+	printArray(life,N+2);
 
-  freearray(life);
-  freearray(temp);
+  	/* Write the final array to output file */
+  	printf("Writing output to file: %s\n", filename);
+  	writefile(life, N, fptr);
+  	fclose(fptr);
 
-  printf("Program terminates normally\n") ;
+  	freearray(life);
+  	freearray(temp);
+
+  	printf("Program terminates normally\n") ;
 
     
 
