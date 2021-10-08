@@ -19,8 +19,9 @@
 
 //print the array with 0(dead) and 1 (alive)
 static void printArray(int **array, int size) { 
-    for(int i=1;i<size-1;i++) {
-        for(int j=1;j<size-1;j++) {
+	int i,j;
+    for(i=1;i<size-1;i++) {
+        for(j=1;j<size-1;j++) {
             printf("%d ", array[i][j]);
         }
         printf("\n");
@@ -57,8 +58,9 @@ void freearray(int **a) {
 
 void randomlize(int **array, int size) { // randomlize each cell in the graph
     srand(1);
-    for(int i=1;i<size-1;i++) {
-        for(int j=1;j<size-1;j++) {
+	int i,j;
+    for(i=1;i<size-1;i++) {
+        for(j=1;j<size-1;j++) {
             array[i][j] = rand() % 2;
         }
     }
@@ -135,15 +137,16 @@ int main(int argc, char* argv[]) {
     temp = allocarray(N+2,N+2);
 
     //initialize boundries of matrix
-    for(int i=0;i<N+2;i++) {
+	int i,j;
+    for(i=0;i<N+2;i++) {
       	life[0][i] = life[i][0] = life[N+1][i] = life[i][N+1] = DIES;
       	temp[0][i] = temp[i][0] = temp[N+1][i] = temp[i][N+1] = DIES;
     }
 
     //randomlize matrix
-    for(int i=1;i<N+1;i++) {
+    for(i=1;i<N+1;i++) {
       	srand48(54321|i);
-      	for(int j=1;j<N+1;j++) {
+      	for(j=1;j<N+1;j++) {
         	if(drand48()<0.5) {
           		life[i][j] = ALIVE;
         	}
@@ -154,7 +157,7 @@ int main(int argc, char* argv[]) {
     }
 
 	int flag=1;
-    int j = 0;
+    j = 0;
 	int r,c, value;
 	int count = 0;
 	int gen = 0;

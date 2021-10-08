@@ -118,7 +118,7 @@ int main(int argc, char **argv) {
   N = atoi(argv[1]);
   NTIMES = atoi(argv[2]);
   NTHREADS = atoi(argv[3]);
-  sprintf(filename,"%s/output2.%d.%d.%d", argv[4], N, NTIMES, NTHREADS);
+  sprintf(filename,"%s/ans.%d.%d.%d", argv[4], N, NTIMES, NTHREADS);
   if ((fptr = fopen(filename, "w")) == NULL) {
      printf("Error opening file %s for writing\n", argv[3]);
      perror("fopen");
@@ -150,7 +150,7 @@ int main(int argc, char **argv) {
   printarray(life, N, 0);
 #endif
   k=0;
-	printarray(life,N,k);
+	//printarray(life,N,k);
 
   t1 = gettime();
   /* Play the game of life for given number of iterations */
@@ -162,7 +162,7 @@ int main(int argc, char **argv) {
     ptr = life;
     life = temp;
     temp = ptr;
-    printarray(life,N,k);
+    //printarray(life,N,k);
 
 #ifdef DEBUG2
     /* Print no. of cells alive after the current iteration */
