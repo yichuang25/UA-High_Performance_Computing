@@ -1,0 +1,46 @@
+setting dmc scratch directory
+ 
+============================================================
+=====         Summary of your script job               =====
+============================================================
+  The script file is: script_1000_5000.sh
+  The time limit is 12:00:00 HH:MM:SS.
+  The target directory is: /home/ualclsa0008/UA-High_Performance_Computing/Homework#3
+  The working directory is:  /scratch-local/ualclsa0008.1000_5000.647711
+  The memory limit is: 1gb
+  The job will start running after: 2021-10-08T11:57:38
+  Job Name: 1000_5000
+  Virtual queue: class
+  QOS: --qos=class
+  Constraints: --constraint=dmc
+  Using  20  cores on master node  dmc201
+  Node list:  dmc201
+  Nodes:  dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201 dmc201
+  Command typed:
+/apps/scripts/run_script script_1000_5000.sh     
+  Queue submit command:
+sbatch --qos=class -J 1000_5000 --begin=2021-10-08T11:57:38 --requeue --mail-user=yhuang87@crimson.ua.edu -o 1000_5000.o647711 -t 12:00:00 -N 1-1 -n 20 --mem-per-cpu=50 --constraint=dmc 
+Time taken 65.483720 seconds for 5000 iterations
+Writing output to file: /scratch/ualclsa0008/ans.1000.5000.1
+Program terminates normally
+Time taken 72.105850 seconds for 5000 iterations
+Writing output to file: /scratch/ualclsa0008/output.1000.5000.1
+Program terminates normally
+Time taken 40.710384 seconds for 5000 iterations
+Writing output to file: /scratch/ualclsa0008/output.1000.5000.2
+Program terminates normally
+Time taken 20.512274 seconds for 5000 iterations
+Writing output to file: /scratch/ualclsa0008/output.1000.5000.4
+Program terminates normally
+Time taken 11.125273 seconds for 5000 iterations
+Writing output to file: /scratch/ualclsa0008/output.1000.5000.8
+Program terminates normally
+Time taken 8.859862 seconds for 5000 iterations
+Writing output to file: /scratch/ualclsa0008/output.1000.5000.10
+Program terminates normally
+Time taken 5.765760 seconds for 5000 iterations
+Writing output to file: /scratch/ualclsa0008/output.1000.5000.16
+Program terminates normally
+Time taken 4.723126 seconds for 5000 iterations
+Writing output to file: /scratch/ualclsa0008/output.1000.5000.20
+Program terminates normally
