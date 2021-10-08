@@ -4,7 +4,9 @@
 * Course Section: CS 481
 * Homework#: 3
 * Instruction to Compile: gcc -Wall -fopenmp -o hw3 hw3.c
-* Instruction to Execute: ./hw3 <size> <max_gen> <num_threads> <output_dir>
+* Instruction to Execute: 	./hw3 <size> <max_gen> <num_threads> <output_dir>
+           					./life 1000 1000 1 .                   (on your local system)
+           					./life 5000 5000 1 /scratch/$USER/     (on DMC at ASC)
 */
 
 #include <stdio.h>
@@ -155,15 +157,18 @@ int main(int argc, char* argv[]) {
     int j = 0;
 	int r,c, value;
 	int count = 0;
+	int gen = 0;
 
-	printf("In Gen# %d\n",j);
-	printArray(life,N+2);
+	//printf("In Gen# %d\n",j);
+	//printArray(life,N+2);
 
     double t1 = gettime();
     //start running
-	#pragma omp parallel num_threads(Nthreads) default(none) shared(temp, life, N, Max_Gen, flag) private(j,ptr, r,c,value,count)
+	#pragma omp parallel num_threads(Nthreads) default(none) shared(temp, life, N, Max_Gen, flag, gen) private(j,ptr, r,c,value,count)
     for(j=0;j<Max_Gen; j++) {
       	//flag = compute(life,temp,N);
+		
+		
 		#pragma omp critical
 		flag = 0;
 		count = 0;
@@ -196,25 +201,35 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		
+		
+		
 		#pragma omp critical
 		flag += count;
 
-		//#pragma omp barrier
-		//{
-		//	printf("\ncount=%d in thread%d\n",count,omp_get_thread_num());
-		//}
+		
 		
 		
 		#pragma omp barrier
 		
-		#pragma omp master
+		#pragma omp single
 		{
 			ptr = life;
       		life = temp;
       		temp = ptr;
-			printf("flag = %d\n",flag);
-			printf("In Gen# %d\n",j+1);
-			printArray(life,N+2);
+			//printf("flag = %d\n",flag);
+			//printf("In Gen# %d\n",j+1);
+			//printArray(life,N+2);
+			if(flag == 0) {
+				gen = j;
+			}
+		}
+
+		#pragma omp barrier
+		{
+			//printf("\nflag=%d in thread%d\n",flag,omp_get_thread_num());
+			if (flag == 0) {
+				j = Max_Gen;
+			}
 		}
 		
 		
@@ -226,9 +241,9 @@ int main(int argc, char* argv[]) {
 		
 
   	double t2 = gettime();
-  	printf("Time taken %f seconds\n", t2 - t1);
+  	printf("Time taken %f seconds for %d iterations\n", t2 - t1, gen);
 
-	printArray(life,N+2);
+	//printArray(life,N+2);
 
   	/* Write the final array to output file */
   	printf("Writing output to file: %s\n", filename);
