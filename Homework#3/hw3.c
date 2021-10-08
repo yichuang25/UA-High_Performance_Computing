@@ -222,9 +222,10 @@ int main(int argc, char* argv[]) {
 			//printf("flag = %d\n",flag);
 			//printf("In Gen# %d\n",j+1);
 			//printArray(life,N+2);
-			if(flag == 0) {
-				gen = j;
-			}
+			//if(flag == 0) {
+			//	gen = j;
+			//}
+			gen = j;
 		}
 
 		#pragma omp barrier
@@ -244,7 +245,7 @@ int main(int argc, char* argv[]) {
 		
 
   	double t2 = gettime();
-  	printf("Time taken %f seconds for %d iterations\n", t2 - t1, gen);
+  	printf("Time taken %f seconds for %d iterations\n", t2 - t1, gen+1);
 
 	//printArray(life,N+2);
 
