@@ -1,0 +1,19 @@
+ 
+============================================================
+=====     Queued job information at submit time        =====
+============================================================
+  The submitted file is: script_5000_5000_ans.sh
+  The time limit is 12:00:00 HH:MM:SS.
+  The target directory is: /home/ualclsa0008/UA-High_Performance_Computing/Homework#3
+  The memory limit is: 4gb
+  The job will start running after: 2021-10-08T19:10:23
+  Job Name: 5000.5000.ans
+  Virtual queue: class
+  QOS: --qos=class
+  Constraints: --constraint=dmc
+  Command typed:
+/apps/scripts/run_script script_5000_5000_ans.sh     
+  Queue submit command:
+sbatch --qos=class -J 5000.5000.ans --begin=2021-10-08T19:10:23 --requeue --mail-user=yhuang87@crimson.ua.edu -o 5000.5000.ans.o$SLURM_JOB_ID -t 12:00:00 -N 1-1 -n 1 --mem-per-cpu=4000 --constraint=dmc 
+  Job number: 647823
+ 
