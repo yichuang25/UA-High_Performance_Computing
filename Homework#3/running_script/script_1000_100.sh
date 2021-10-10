@@ -1,4 +1,5 @@
 #!/bin/bash
+module load intel
 ./life 1000 100 1 /scratch/$USER
 ./hw3 1000 100 1 /scratch/$USER
 ./hw3 1000 100 2 /scratch/$USER
