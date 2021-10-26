@@ -137,18 +137,18 @@ int main(int argc, char **argv) {
 
         for (i = 0; i < size; i++) {
             counts[i] = (myN + ((i < remain)?1:0)) * (N+2);
-            printf("%d ", counts[i]);
+            //printf("%d ", counts[i]);
         }
-        printf("\n");
+        //printf("\n");
 	      
 	    displs[0] = 0;
 	    for (i = 1; i < size; i++) {
             displs[i] = displs[i-1] + counts[i-1];
-            printf("%d ", displs[i]);
+            //printf("%d ", displs[i]);
         }
-        printf("\n");
+        //printf("\n");
 	    countptr = counts;
-        printwhole(life,N+2,N+2, rank);
+        //printwhole(life,N+2,N+2, rank);
     }
 
     MPI_Barrier(comm);
@@ -186,11 +186,15 @@ int main(int argc, char **argv) {
     //printf("[%d] up = %d, down = %d\n",rank,up,down);
     MPI_Barrier(comm);
 
-    if(up < 0) { //ignore
-        MPI_Sendrecv(mylife[mycount], N+2, MPI_INT, down, 0,
+    if(up < 0) {
+        if(down < size) {
+            MPI_Sendrecv(mylife[mycount], N+2, MPI_INT, down, 0,
                     mylife[mycount+1], N+2, MPI_INT, down, 0, comm, &status);
+        }
+        
     }
     else if(down >= size) {
+
         MPI_Sendrecv(mylife[1], N+2, MPI_INT, up, 0,
                     mylife[0], N+2, MPI_INT, up, 0, comm, &status);
     }
@@ -206,10 +210,10 @@ int main(int argc, char **argv) {
     //start computing
     t1 = gettime();
 
-    for(k=0;k<=NTIMES;k++) {
+    for(k=0;k<NTIMES;k++) {
         //printf("[%d] k = %d\n",rank,k);
         
-        MPI_Barrier(comm);
+        
         value = 0;
         myflag = 0;
         flag = 0;
@@ -250,9 +254,12 @@ int main(int argc, char **argv) {
         if(flag!=0) {
             
             //swap ghost
-            if(up < 0) { //ignore
-                MPI_Sendrecv(mytemp[mycount], N+2, MPI_INT, down, 0,
+            if(up < 0) { 
+                if(down < size) {
+                    MPI_Sendrecv(mytemp[mycount], N+2, MPI_INT, down, 0,
                     mytemp[mycount+1], N+2, MPI_INT, down, 0, comm, &status);
+                }
+                
             }
             else if(down >= size) {
                 MPI_Sendrecv(mytemp[1], N+2, MPI_INT, up, 0,
@@ -277,7 +284,7 @@ int main(int argc, char **argv) {
         else {
             max_iter = k + 1;
             k = NTIMES + 1;
-            MPI_Barrier(comm);
+            
         }
         MPI_Barrier(comm);
     }
@@ -288,7 +295,7 @@ int main(int argc, char **argv) {
     t2 = gettime();
 
     if(rank == 0) {
-        printwhole(life,N+2,N+2, rank);
+        //printarray(life,N,N, max_iter);
         printf("Time taken %f seconds for %d iterations\n", t2 - t1, max_iter);
         printf("Writing output to file: %s\n", filename);
         writefile(life, N, fptr);
