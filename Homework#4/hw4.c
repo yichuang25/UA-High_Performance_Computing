@@ -1,4 +1,3 @@
-#include <stdio.h>
 /*
 * Name: Yichen Huang
 * Email: yhuang87@crimson.ua.edu
@@ -7,6 +6,7 @@
 * Instruction to Compile: mpicc -O -Wall -o hw4 hw4.c
 * Instruction to Execute: 	mpiexec -n <num_processors> ./hw4 <size> <max_gen> <num_processors> <output dir>
 */
+#include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
 #include <mpi.h>
