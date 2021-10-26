@@ -18,8 +18,9 @@ int main(int argc, char* argv[]) {
         MPI_Waitall(size-1,request, MPI_STATUSES_IGNORE);
     }
     else {
-        MPI_Irecv(&num, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &request[0]);
-        MPI_Wait(&request[0],MPI_STATUS_IGNORE);
+        //MPI_Irecv(&num, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &request[0]);
+        //MPI_Wait(&request[0],MPI_STATUS_IGNORE);
+        MPI_Recv(&num, 1, MPI_INT,0,0,MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
     printf("rank = %d, num = %d\n",rank, num);

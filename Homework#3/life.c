@@ -162,7 +162,7 @@ int main(int argc, char **argv) {
     ptr = life;
     life = temp;
     temp = ptr;
-    //printarray(life,N,k);
+    printarray(life,N,k);
 
 #ifdef DEBUG2
     /* Print no. of cells alive after the current iteration */
