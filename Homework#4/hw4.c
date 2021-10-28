@@ -77,10 +77,10 @@ void writefile(int **a, int N, FILE *fptr) {
 
 int main(int argc, char **argv) {
     int N, myN, NTIMES, NCORES, **life=NULL, **temp=NULL, **ptr, **mylife=NULL, **mytemp=NULL;
-    int i, j, k, max_iter, value, flag=0, myflag=0, size, rank, remain, mycount, *counts=NULL, *displs=NULL;
+    int i, j, k, max_iter=0, value, flag=0, myflag=0, size, rank, remain, mycount, *counts=NULL, *displs=NULL;
     double t1, t2;
     char filename[BUFSIZ];
-    FILE *fptr;
+    FILE *fptr = NULL;
     MPI_Status status;
     MPI_Comm comm;
 
@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
     sprintf(filename,"%s/output.%d.%d.%d",argv[4],N,NTIMES,NCORES);
 
     int *bufptr=NULL;
-    int *countptr = NULL;
+    //int *countptr = NULL;
     if(rank == 0) {
         if ((fptr = fopen(filename, "w")) == NULL) {
             printf("Error opening file %s for writing\n", argv[3]);
@@ -147,7 +147,7 @@ int main(int argc, char **argv) {
             //printf("%d ", displs[i]);
         }
         //printf("\n");
-	    countptr = counts;
+	    //countptr = counts;
         //printwhole(life,N+2,N+2, rank);
     }
 
