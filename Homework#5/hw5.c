@@ -1,4 +1,4 @@
-/*
+/**
 * Name: Yichen Huang
 * Email: yhuang87@crimson.ua.edu
 * Course Section: CS 481
@@ -17,7 +17,7 @@
 #define MAXN 1048576
 
 /**
- * @brief allgather function
+ * @brief allgather function using non-blocking MPI primitives
  * 
  * @param sendbuf pointer of the sendbuffer
  * @param sendcount size of the sent message
@@ -26,7 +26,7 @@
  * @param recvcount size of the received message
  * @param recvtype data type of received message
  * @param comm MPI_COMM_WORLD
- * @return int 
+ * @return if success return 0; otherwise return -1
  */
 int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm);
 
@@ -47,6 +47,8 @@ int main (int argc, char **argv) {
     }
     recvbuf = (int *) malloc (sizeof(int) * MAXN * size);
 
+
+/* BEBUG Micro: printout the recvbuffer after allgather function (Print from 0 to msgsize-1 num_processor times) */
 #ifdef DEBUG
     int j;
     msgsize = 8;
@@ -103,6 +105,7 @@ int main (int argc, char **argv) {
     return 0;
 }
 
+
 int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm) {
     int rank, size, i, offset, dest;
     MPI_Status status;
@@ -125,7 +128,7 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
     MPI_Type_get_extent (sendtype, &lb, &sizeofsendtype);
     MPI_Type_get_extent (recvtype, &lb, &sizeofrecvtype);
 
-    //add to local recvbuf
+    /* send to local recvbuf */
     for(i=0;i<size;i++) {
         offset = i * sendcount * sizeofsendtype;
         MPI_Sendrecv( sendbuf , sendcount , sendtype , i , 0 , 
@@ -135,7 +138,8 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
 
     //printf("[%d] 1\n",rank);
     MPI_Barrier(comm);
-    //send to other processor
+    
+    /* send to other processor */
     for(i=0;(int)(pow(2,i))<size;i++) {
         MPI_Barrier(comm);
 
@@ -157,8 +161,6 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
         }
 
     }
-
-    
-    
+  
     return 0;
 }
