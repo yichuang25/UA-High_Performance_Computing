@@ -3,7 +3,8 @@
 * Email: yhuang87@crimson.ua.edu
 * Course Section: CS 481
 * Homework#: 5
-* Instruction to Compile: mpicc -O -Wall -o hw5 hw5.c
+* Instruction to Compile (with DEBUG): mpicc -O -Wall -D DEBUG -o hw5 hw5.c
+* Instruction to Compile (without DEBUG): mpicc -O -Wall -o hw5 hw5.c
 * Instruction to Execute: 	mpiexec -n <num_processors> ./hw5
 */
 #include <stdio.h>
@@ -15,6 +16,18 @@
 
 #define MAXN 1048576
 
+/**
+ * @brief allgather function
+ * 
+ * @param sendbuf pointer of the sendbuffer
+ * @param sendcount size of the sent message
+ * @param sendtype  data type of sent message
+ * @param recvbuf  pointer of the receivebuffer
+ * @param recvcount size of the received message
+ * @param recvtype data type of received message
+ * @param comm MPI_COMM_WORLD
+ * @return int 
+ */
 int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm);
 
 int main (int argc, char **argv) {
@@ -27,29 +40,38 @@ int main (int argc, char **argv) {
     MPI_Comm_rank (MPI_COMM_WORLD, &rank);
     MPI_Comm_size (MPI_COMM_WORLD, &size);
 
-    //inital buffers
+    /* allocate send and receive buffers */
     sendbuf = (int *) malloc (sizeof(int) * MAXN);
     for(i=0;i<MAXN;i++) {
         sendbuf[i] = i;
     }
     recvbuf = (int *) malloc (sizeof(int) * MAXN * size);
 
+#ifdef DEBUG
+    int j;
+    msgsize = 8;
+    if(rank == 0) {
+        
+        printf("\nWhen msgsize = %d\n",msgsize);
+    }
+    MPI_Barrier(MPI_COMM_WORLD);
 
-/*
-    msgsize = 4;
     if (allgather(sendbuf,msgsize,MPI_INT,recvbuf,msgsize,MPI_INT,MPI_COMM_WORLD) != 0) {
         printf("The allgather function runs successfully for %d size\n",msgsize);
     }
 
     
-    printf("[%d] ", rank);
+    printf("[%d] recvbuf: ", rank);
     for(j=0;j<msgsize*size;j++) {
         printf("%d ",recvbuf[j]);
     }
-    printf("\n");
-*/
+    printf("\n\n");
 
+    MPI_Barrier(MPI_COMM_WORLD);
 
+#endif
+
+    /*  Test message size from 8 to 1048576   */
     for (msgsize = 8; msgsize <= MAXN; msgsize = msgsize << 1) {
 
         MPI_Barrier(MPI_COMM_WORLD);
@@ -58,9 +80,11 @@ int main (int argc, char **argv) {
         allgather(sendbuf,msgsize,MPI_INT,recvbuf,msgsize,MPI_INT,MPI_COMM_WORLD);
 
         t2 = MPI_Wtime() - t1;
+        
+        /* Get the max time */
         MPI_Reduce(&t2, &t1, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
 
-        //check results
+        /* Check recvbuf result*/
         for(i = 0; i<msgsize*size; i++) {
             offset = i%msgsize;
             assert(recvbuf[i] == offset);
@@ -70,6 +94,8 @@ int main (int argc, char **argv) {
             printf("Message size = %ld bytes, Maximum time = %g\n",msgsize * sizeof(int), t1/100);
         }
     }
+
+    /* free send and receive buffers */
     free(sendbuf);
     free(recvbuf);
     MPI_Finalize ();
