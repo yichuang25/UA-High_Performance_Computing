@@ -70,7 +70,8 @@ int main (int argc, char **argv) {
             printf("Message size = %ld bytes, Maximum time = %g\n",msgsize * sizeof(int), t1/100);
         }
     }
-
+    free(sendbuf);
+    free(recvbuf);
     MPI_Finalize ();
 
     return 0;
