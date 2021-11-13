@@ -4,7 +4,7 @@
 * Course Section: CS 481
 * Homework#: 5
 * Instruction to Compile (with DEBUG): mpicc -O -Wall -D DEBUG -o hw5 hw5.c
-* Instruction to Compile (without DEBUG): mpicc -O -Wall -o hw5 hw5.c
+* Instruction to Compile (without DEBUG): mpicc -O -Wall -lm -o hw5 hw5.c
 * Instruction to Execute: 	mpiexec -n <num_processors> ./hw5
 */
 #include <stdio.h>
