@@ -6,7 +6,7 @@
 #include <math.h>
 #include "allgather1.h"
 
-int allgather1(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm) {
+int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm) {
     int rank, size, i, offset;
     MPI_Status *status;
     MPI_Request *request;

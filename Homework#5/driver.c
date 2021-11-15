@@ -1,3 +1,15 @@
+/**
+* Name: Yichen Huang
+* Email: yhuang87@crimson.ua.edu
+* Course Section: CS 481
+* Homework#: 5
+* Instruction to Compile (with DEBUG):  mpicc -O -Wall -D DEBUG -lm -o ver1 driver.c allgather1.c
+*                                       mpicc -O -Wall -D DEBUG -lm -o ver2 driver.c allgather2.c
+* Instruction to Compile (without DEBUG):   mpicc -O -Wall -lm -o ver2 driver.c allgather1.c
+*                                           mpicc -O -Wall -lm -o ver2 driver.c allgather2.c
+* Instruction to Execute: 	mpiexec -n <num_processors> ./ver1
+*                           mpiexec -n <num_processors> ./ver2
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
@@ -14,7 +26,7 @@ void myscatter (void *sendbuf, int sendcount, MPI_Datatype sendtype,
 		int root, MPI_Comm comm);
 
 int main(int argc, char *argv[]) {
-    int i, rank, size, msgsize, root=0, method;
+    int i, rank, size, msgsize, root=0;
     int *sendbuf=NULL, *recvbuf=NULL, *myrecvbuf=NULL;
     double t1, t2;
 
@@ -22,18 +34,9 @@ int main(int argc, char *argv[]) {
 
     MPI_Comm_rank (MPI_COMM_WORLD, &rank);
     MPI_Comm_size (MPI_COMM_WORLD, &size);
-
-    if(argc != 2) {
-        printf("Usage: %s <method>\n",argv[0]);
-        MPI_Abort(MPI_COMM_WORLD, -1);
-    }
-
-    method = atoi(argv[1]);
-    if((method < 1) || (method > 2)) {
-        printf("Error, the method not exist\n");
-        MPI_Abort( MPI_COMM_WORLD , -1);
-    }
     
+
+    /* allocate send and receive buffers */
     sendbuf = (int *) malloc (sizeof (int) * MAXN * size);
     for (i = 0; i < MAXN * size; i++)
 	    sendbuf[i] = i;
@@ -42,6 +45,7 @@ int main(int argc, char *argv[]) {
     myrecvbuf = (int *) malloc (sizeof (int) * MAXN);
     recvbuf = (int *) malloc (sizeof(int) * MAXN * size);
 
+/* BEBUG Micro: printout the recvbuffer after allgather function (Print from 0 to msgsize-1 num_processor times) */
 #ifdef DEBUG
     int j;
     msgsize = 8;
@@ -53,7 +57,7 @@ int main(int argc, char *argv[]) {
     myscatter (sendbuf, msgsize, MPI_INT, myrecvbuf, msgsize, MPI_INT,
 		                 root, MPI_COMM_WORLD);
 
-    if (allgather2(myrecvbuf,msgsize,MPI_INT,recvbuf,msgsize,MPI_INT,MPI_COMM_WORLD) != 0) {
+    if (allgather(myrecvbuf,msgsize,MPI_INT,recvbuf,msgsize,MPI_INT,MPI_COMM_WORLD) != 0) {
         printf("The allgather function runs successfully for %d size\n",msgsize);
     }
 
@@ -68,21 +72,20 @@ int main(int argc, char *argv[]) {
 
 #endif
 
+    /*  Test message size from 8 to 1048576   */
     for(msgsize = 8; msgsize <= MAXN; msgsize = msgsize << 1) {
         myscatter (sendbuf, msgsize, MPI_INT, myrecvbuf, msgsize, MPI_INT, root, MPI_COMM_WORLD);
         MPI_Barrier(MPI_COMM_WORLD);
         t1 = MPI_Wtime();
 
-        if(method == 1) {
-            allgather1(myrecvbuf,msgsize,MPI_INT,recvbuf,msgsize,MPI_INT,MPI_COMM_WORLD);
-        }
-        else {
-            allgather2(myrecvbuf,msgsize,MPI_INT,recvbuf,msgsize,MPI_INT,MPI_COMM_WORLD);
-        }
+        
+        allgather(myrecvbuf,msgsize,MPI_INT,recvbuf,msgsize,MPI_INT,MPI_COMM_WORLD);
         
         t2 = MPI_Wtime() - t1;
+        /* Get the max time */
         MPI_Reduce(&t2, &t1, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
 
+        /* Check recvbuf result*/
         for(i = 0; i<msgsize*size; i++) {
             assert(recvbuf[i] == sendbuf[i]);
         }
@@ -93,6 +96,7 @@ int main(int argc, char *argv[]) {
 
     }
 
+    /* free send and receive buffers */
     free(sendbuf);
     free(recvbuf);
     free(myrecvbuf);
