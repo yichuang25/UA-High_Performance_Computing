@@ -5,7 +5,7 @@
 * Homework#: 5
 * Instruction to Compile (with DEBUG):  mpicc -O -Wall -D DEBUG -lm -o ver1 driver.c allgather1.c
 *                                       mpicc -O -Wall -D DEBUG -lm -o ver2 driver.c allgather2.c
-* Instruction to Compile (without DEBUG):   mpicc -O -Wall -lm -o ver2 driver.c allgather1.c
+* Instruction to Compile (without DEBUG):   mpicc -O -Wall -lm -o ver1 driver.c allgather1.c
 *                                           mpicc -O -Wall -lm -o ver2 driver.c allgather2.c
 * Instruction to Execute: 	mpiexec -n <num_processors> ./ver1
 *                           mpiexec -n <num_processors> ./ver2
