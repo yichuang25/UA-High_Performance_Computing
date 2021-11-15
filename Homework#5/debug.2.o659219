@@ -1,0 +1,70 @@
+setting dmc scratch directory
+ 
+============================================================
+=====         Summary of your script job               =====
+============================================================
+  The script file is: debug_script.sh
+  The time limit is 12:00:00 HH:MM:SS.
+  The target directory is: /home/ualclsa0008/UA-High_Performance_Computing/Homework#5
+  The working directory is:  /scratch-local/ualclsa0008.debug.2.659219
+  The memory limit is: 1gb
+  The job will start running after: 2021-11-15T16:50:51
+  Job Name: debug.2
+  Virtual queue: class
+  QOS: --qos=class
+  Constraints: --constraint=dmc
+  Using  2  cores on master node  dmc5
+  Node list:  dmc5
+  Nodes:  dmc5 dmc5
+  Command typed:
+/apps/scripts/run_script debug_script.sh     
+  Queue submit command:
+sbatch --qos=class -J debug.2 --begin=2021-11-15T16:50:51 --requeue --mail-user=yhuang87@crimson.ua.edu -o debug.2.o659219 -t 12:00:00 -N 1-1 -n 2 --mem-per-cpu=500 --constraint=dmc 
+
+When msgsize = 8
+[0] recvbuf: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+
+Message size = 32 bytes, Maximum time = 6.554e-08
+Message size = 64 bytes, Maximum time = 2.661e-08
+Message size = 128 bytes, Maximum time = 6.972e-08
+Message size = 256 bytes, Maximum time = 2.1822e-07
+Message size = 512 bytes, Maximum time = 7.325e-08
+Message size = 1024 bytes, Maximum time = 4.508e-08
+Message size = 2048 bytes, Maximum time = 2.7778e-07
+Message size = 4096 bytes, Maximum time = 2.9282e-07
+Message size = 8192 bytes, Maximum time = 6.6559e-07
+Message size = 16384 bytes, Maximum time = 4.2321e-07
+Message size = 32768 bytes, Maximum time = 4.8706e-07
+Message size = 65536 bytes, Maximum time = 7.1933e-07
+Message size = 131072 bytes, Maximum time = 1.5567e-06
+Message size = 262144 bytes, Maximum time = 3.31907e-06
+Message size = 524288 bytes, Maximum time = 6.21536e-06
+Message size = 1048576 bytes, Maximum time = 2.16686e-05
+Message size = 2097152 bytes, Maximum time = 3.5541e-05
+Message size = 4194304 bytes, Maximum time = 6.47256e-05
+[1] recvbuf: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+
+
+When msgsize = 8
+[0] recvbuf: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+
+Message size = 32 bytes, Maximum time = 4.2758e-07
+Message size = 64 bytes, Maximum time = 2.7875e-07
+Message size = 128 bytes, Maximum time = 3.686e-08
+Message size = 256 bytes, Maximum time = 3.737e-08
+Message size = 512 bytes, Maximum time = 2.7676e-07
+Message size = 1024 bytes, Maximum time = 2.1873e-07
+Message size = 2048 bytes, Maximum time = 6.89e-08
+Message size = 4096 bytes, Maximum time = 2.3708e-07
+Message size = 8192 bytes, Maximum time = 3.1982e-07
+Message size = 16384 bytes, Maximum time = 2.7613e-07
+Message size = 32768 bytes, Maximum time = 5.3234e-07
+Message size = 65536 bytes, Maximum time = 5.7079e-07
+Message size = 131072 bytes, Maximum time = 1.09756e-06
+Message size = 262144 bytes, Maximum time = 2.37688e-06
+Message size = 524288 bytes, Maximum time = 8.786e-06
+Message size = 1048576 bytes, Maximum time = 1.47147e-05
+Message size = 2097152 bytes, Maximum time = 2.99726e-05
+Message size = 4194304 bytes, Maximum time = 5.90398e-05
+[1] recvbuf: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
+
