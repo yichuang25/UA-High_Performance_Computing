@@ -4,10 +4,11 @@
 #include <mpi.h>
 #include <assert.h>
 #include <math.h>
+#include "allgather2.h"
 
-int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm);
 
-int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm) {
+
+int allgather2(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm) {
     int rank, size, i, offset, dest;
     MPI_Status status;
     MPI_Aint lb, sizeofsendtype, sizeofrecvtype;
