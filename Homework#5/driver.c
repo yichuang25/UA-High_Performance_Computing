@@ -21,6 +21,18 @@
 
 #define MAXN 1048576
 
+/**
+ * @brief scatter sendbuf to local buffer copy from blackboard
+ * 
+ * @param sendbuf send buffer
+ * @param sendcount size of sent message 
+ * @param sendtype  type of sent message
+ * @param recvbuf  receive buffer
+ * @param recvcount size of received message
+ * @param recvtype  type of received message
+ * @param root source process
+ * @param comm MPI_COMM_WORLD
+ */
 void myscatter (void *sendbuf, int sendcount, MPI_Datatype sendtype,
 		void *recvbuf, int recvcount, MPI_Datatype recvtype,
 		int root, MPI_Comm comm);
