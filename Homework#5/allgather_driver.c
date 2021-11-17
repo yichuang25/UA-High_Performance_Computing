@@ -1,10 +1,15 @@
-/* Driver program to test the allgather function.
- *
- * To Compile: mpicc -Wall -lm -o myallgather1 allgather_driver.c allgather1.c
- *             mpicc -Wall -lm -o myallgather2 allgather_driver.c allgather2.c
- * To Run: On your local system: mpiexec -n 4 ./myallgather 
- *         On DMC cluster, see instructions provided in README.md
- */
+/**
+* Name: Yichen Huang
+* Email: yhuang87@crimson.ua.edu
+* Course Section: CS 481
+* Homework#: 5
+*
+* To Compile: mpicc -Wall -lm -o myallgather1 allgather_driver.c allgather1.c
+*             mpicc -Wall -lm -o myallgather2 allgather_driver.c allgather2.c
+* To Run: On your local system: mpiexec -n 4 ./myallgather 
+*         
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
