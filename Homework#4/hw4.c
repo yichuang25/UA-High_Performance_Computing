@@ -151,7 +151,7 @@ int main(int argc, char **argv) {
         //printwhole(life,N+2,N+2, rank);
     }
 
-    MPI_Barrier(comm);
+    //MPI_Barrier(comm);
 
     //create local
     mycount = myN + ((rank < remain)?1:0);
@@ -176,7 +176,7 @@ int main(int argc, char **argv) {
     /* scatter the life to mylife */
     MPI_Scatterv(bufptr, counts, displs, MPI_INT,mylife[1], mycount*(N+2), MPI_INT, 0, comm);
     //printwhole(mylife,mycount+2,N+2, rank);
-    MPI_Barrier(comm);
+    //MPI_Barrier(comm);
 
     /* swap to ghost cells */
     int up = rank-1;
@@ -184,7 +184,7 @@ int main(int argc, char **argv) {
     
     //printf("[%d] mycount = %d\n",rank,mycount);
     //printf("[%d] up = %d, down = %d\n",rank,up,down);
-    MPI_Barrier(comm);
+    //MPI_Barrier(comm);
 
     if(up < 0) {
         if(down < size) {
@@ -206,7 +206,7 @@ int main(int argc, char **argv) {
                     mylife[mycount+1], N+2, MPI_INT, down, 0, comm, &status);
     }
 
-    MPI_Barrier(comm);
+    //MPI_Barrier(comm);
     //start computing
     t1 = gettime();
 
@@ -246,9 +246,9 @@ int main(int argc, char **argv) {
         }
         //printf("[%d] myflag = %d\n",rank,myflag);
 
-        MPI_Barrier(comm);
+        //MPI_Barrier(comm);
         MPI_Allreduce(&myflag, &flag, 1, MPI_INT, MPI_SUM, comm);
-        MPI_Barrier(comm);
+        //MPI_Barrier(comm);
 
         //printf("[%d] In gen# %d flag = %d\n",rank,k,flag);
         if(flag!=0) {
@@ -275,7 +275,7 @@ int main(int argc, char **argv) {
 
 
 
-            MPI_Barrier(comm);
+            //MPI_Barrier(comm);
             ptr = mylife;
             mylife = mytemp;
             mytemp = ptr;
@@ -286,9 +286,9 @@ int main(int argc, char **argv) {
             k = NTIMES + 1;
             
         }
-        MPI_Barrier(comm);
+        //MPI_Barrier(comm);
     }
-    MPI_Barrier(comm);
+    //MPI_Barrier(comm);
     //printwhole(mylife,mycount,N+2,rank);
     MPI_Gatherv(mylife[1], mycount*(N+2), MPI_INT, bufptr, counts, displs, MPI_INT, 0, comm);
     
