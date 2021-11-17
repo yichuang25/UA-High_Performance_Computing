@@ -172,7 +172,7 @@ int main(int argc, char* argv[]) {
       	//flag = compute(life,temp,N);
 		
 		
-		#pragma omp critical
+		
 		flag = 0;
 		count = 0;
 		
@@ -229,12 +229,12 @@ int main(int argc, char* argv[]) {
 		}
 
 		#pragma omp barrier
-		{
-			//printf("\nflag=%d in thread%d\n",flag,omp_get_thread_num());
-			if (flag == 0) {
-				j = Max_Gen;
-			}
+		
+		//printf("\nflag=%d in thread%d\n",flag,omp_get_thread_num());
+		if (flag == 0) {
+			j = Max_Gen;
 		}
+		
 		
 		
 		#pragma omp barrier 
