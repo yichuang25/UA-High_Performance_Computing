@@ -20,6 +20,7 @@
 #include "allgather2.h"
 
 #define MAXN 1048576
+#define NTIMES 100
 
 /**
  * @brief scatter sendbuf to local buffer copy from blackboard
@@ -90,8 +91,8 @@ int main(int argc, char *argv[]) {
         MPI_Barrier(MPI_COMM_WORLD);
         t1 = MPI_Wtime();
 
-        
-        allgather(myrecvbuf,msgsize,MPI_INT,recvbuf,msgsize,MPI_INT,MPI_COMM_WORLD);
+        for (i = 0; i < NTIMES; i++)
+            allgather(myrecvbuf,msgsize,MPI_INT,recvbuf,msgsize,MPI_INT,MPI_COMM_WORLD);
         
         t2 = MPI_Wtime() - t1;
         /* Get the max time */
