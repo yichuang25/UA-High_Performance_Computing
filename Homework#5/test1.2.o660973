@@ -1,0 +1,58 @@
+setting dmc scratch directory
+ 
+============================================================
+=====         Summary of your script job               =====
+============================================================
+  The script file is: Scripts/test_script1.sh
+  The time limit is 12:00:00 HH:MM:SS.
+  The target directory is: /home/ualclsa0008/UA-High_Performance_Computing/Homework#5
+  The working directory is:  /scratch-local/ualclsa0008.test1.2.660973
+  The memory limit is: 1gb
+  The job will start running after: 2021-11-18T12:49:24
+  Job Name: test1.2
+  Virtual queue: class
+  QOS: --qos=class
+  Constraints: --constraint=dmc
+  Using  2  cores on master node  dmc5
+  Node list:  dmc5
+  Nodes:  dmc5 dmc5
+  Command typed:
+/apps/scripts/run_script Scripts/test_script1.sh     
+  Queue submit command:
+sbatch --qos=class -J test1.2 --begin=2021-11-18T12:49:24 --requeue --mail-user=yhuang87@crimson.ua.edu -o test1.2.o660973 -t 12:00:00 -N 1-1 -n 2 --mem-per-cpu=500 --constraint=dmc 
+Message size = 32 bytes, Maximum time = 1.84064e-06
+Message size = 64 bytes, Maximum time = 1.46016e-06
+Message size = 128 bytes, Maximum time = 1.67164e-06
+Message size = 256 bytes, Maximum time = 2.06489e-06
+Message size = 512 bytes, Maximum time = 4.58576e-06
+Message size = 1024 bytes, Maximum time = 4.07894e-06
+Message size = 2048 bytes, Maximum time = 5.99283e-06
+Message size = 4096 bytes, Maximum time = 9.26407e-06
+Message size = 8192 bytes, Maximum time = 1.24868e-05
+Message size = 16384 bytes, Maximum time = 2.11792e-05
+Message size = 32768 bytes, Maximum time = 3.48386e-05
+Message size = 65536 bytes, Maximum time = 6.73274e-05
+Message size = 131072 bytes, Maximum time = 0.000152562
+Message size = 262144 bytes, Maximum time = 0.000300189
+Message size = 524288 bytes, Maximum time = 0.000591105
+Message size = 1048576 bytes, Maximum time = 0.00124845
+Message size = 2097152 bytes, Maximum time = 0.00264527
+Message size = 4194304 bytes, Maximum time = 0.00536786
+Message size = 32 bytes, Maximum time = 2.2371e-06
+Message size = 64 bytes, Maximum time = 1.7037e-06
+Message size = 128 bytes, Maximum time = 1.75946e-06
+Message size = 256 bytes, Maximum time = 1.80309e-06
+Message size = 512 bytes, Maximum time = 2.65001e-06
+Message size = 1024 bytes, Maximum time = 2.72493e-06
+Message size = 2048 bytes, Maximum time = 2.61121e-06
+Message size = 4096 bytes, Maximum time = 5.73163e-06
+Message size = 8192 bytes, Maximum time = 7.01883e-06
+Message size = 16384 bytes, Maximum time = 1.01967e-05
+Message size = 32768 bytes, Maximum time = 1.52355e-05
+Message size = 65536 bytes, Maximum time = 2.7456e-05
+Message size = 131072 bytes, Maximum time = 5.1357e-05
+Message size = 262144 bytes, Maximum time = 0.000107574
+Message size = 524288 bytes, Maximum time = 0.000209428
+Message size = 1048576 bytes, Maximum time = 0.000499812
+Message size = 2097152 bytes, Maximum time = 0.0010916
+Message size = 4194304 bytes, Maximum time = 0.00253133
