@@ -9,7 +9,7 @@
 
 
 int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, MPI_Comm comm) {
-    int rank, size, i, offset, dest;
+    int rank, size, i, offset, dest, denom, recvoffset, sendoffset;
     MPI_Status status;
     MPI_Aint lb, sizeofsendtype, sizeofrecvtype;
 
@@ -31,38 +31,56 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
     MPI_Type_get_extent (recvtype, &lb, &sizeofrecvtype);
 
     /* send to local recvbuf */
-    for(i=0;i<size;i++) {
-        offset = i * sendcount * sizeofsendtype;
-        MPI_Sendrecv( sendbuf , sendcount , sendtype , i , 0 , 
-                    recvbuf+offset , recvcount , recvtype , i , 0 , comm , &status);
+    
+    //for(i=0;i<size;i++) {
+    offset = rank * sendcount * sizeofsendtype;
+    MPI_Sendrecv( sendbuf , sendcount , sendtype , rank , 0 , 
+                recvbuf+offset , recvcount , recvtype , rank , 0 , comm , &status);
 
-    }
-
-    //printf("[%d] 1\n",rank);
+    //}
+    
+    
+    
     MPI_Barrier(comm);
     
     /* send to other processor */
     for(i=0;(int)(pow(2,i))<size;i++) {
         MPI_Barrier(comm);
 
-
-        if(((rank>>i) & 1) == 0) {
-            dest = rank+(int)(pow(2,i));
-            //printf("i=[%d] rank=[%d] value = %d dest = %d\n", i, rank, ((rank>>i) & 1),dest);
-            offset = dest * sendcount * sizeofsendtype;
-            MPI_Sendrecv(sendbuf , sendcount , sendtype , dest , 0, 
-                        recvbuf+offset , recvcount , recvtype , dest , 0, comm , &status);
+        denom = (int)(pow(2,i));
+        if(((rank>>i) & 0b1) == 0) {
+            dest = rank+denom;
+            
+            if(i >= 1) {
+                sendoffset = ((rank/denom)*denom) * sendcount  * sizeofsendtype;
+                recvoffset = ((dest/denom)*denom) * recvcount  * sizeofrecvtype;
+            }
+            else {
+                sendoffset = rank * sendcount * sizeofsendtype;
+                recvoffset = dest * sendcount * sizeofrecvtype;
+            }
+            //printf("i=[%d] rank=[%d] value = %d dest = %d sendoffset=%d recvoffset=%d\n", i, rank, ((rank>>i) & 1),dest, sendoffset, recvoffset);
+            MPI_Sendrecv(recvbuf+sendoffset , sendcount * denom , sendtype , dest , 0, 
+                        recvbuf+recvoffset , recvcount * denom , recvtype , dest , 0, comm , &status);
 
         }
         else {
-            dest = rank-(int)(pow(2,i));
-            //printf("i=[%d] rank=[%d] value = %d dest = %d\n", i, rank, ((rank>>i) & 1),dest);
-            offset = dest * sendcount * sizeofsendtype;
-            MPI_Sendrecv(sendbuf ,sendcount , sendtype , dest , 0 , 
-                        recvbuf+offset , recvcount , recvtype , dest , 0 , comm , &status);
+            dest = rank-denom;
+            if(i >= 1) {
+                sendoffset = ((rank/denom)*denom) * sendcount  * sizeofsendtype;
+                recvoffset = ((dest/denom)*denom) * recvcount  * sizeofrecvtype;
+            }
+            else {
+                sendoffset = rank * sendcount * sizeofsendtype;
+                recvoffset = dest * sendcount * sizeofrecvtype;
+            }
+            //printf("i=[%d] rank=[%d] value = %d dest = %d sendoffset=%d recvoffset=%d\n", i, rank, ((rank>>i) & 1),dest, sendoffset, recvoffset);
+            MPI_Sendrecv(recvbuf+sendoffset ,sendcount * denom , sendtype , dest , 0 , 
+                        recvbuf+recvoffset , recvcount * denom , recvtype , dest , 0 , comm , &status);
         }
 
     }
+    
   
     return 0;
 }

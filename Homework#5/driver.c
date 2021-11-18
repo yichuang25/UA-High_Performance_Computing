@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
 /* BEBUG Micro: printout the recvbuffer after allgather function (Print from 0 to msgsize-1 num_processor times) */
 #ifdef DEBUG
     int j;
-    msgsize = 8;
+    msgsize = 4;
     if(rank == 0) {
         
         printf("\nWhen msgsize = %d\n",msgsize);
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
 
 #endif
 
-    /*  Test message size from 8 to 1048576   */
+    //  Test message size from 8 to 1048576
     for(msgsize = 8; msgsize <= MAXN; msgsize = msgsize << 1) {
         myscatter (sendbuf, msgsize, MPI_INT, myrecvbuf, msgsize, MPI_INT, root, MPI_COMM_WORLD);
         MPI_Barrier(MPI_COMM_WORLD);
@@ -95,10 +95,10 @@ int main(int argc, char *argv[]) {
             allgather(myrecvbuf,msgsize,MPI_INT,recvbuf,msgsize,MPI_INT,MPI_COMM_WORLD);
         
         t2 = MPI_Wtime() - t1;
-        /* Get the max time */
+        // Get the max time 
         MPI_Reduce(&t2, &t1, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
 
-        /* Check recvbuf result*/
+        // Check recvbuf result
         for(i = 0; i<msgsize*size; i++) {
             assert(recvbuf[i] == sendbuf[i]);
         }
