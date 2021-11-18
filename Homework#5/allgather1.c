@@ -25,8 +25,8 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
     MPI_Comm_rank(comm, &rank);
     MPI_Comm_size(comm, &size);
 
-    status = malloc (sizeof (MPI_Status) * (size));
-    request = malloc (sizeof (MPI_Request) * (size));
+    status = malloc (sizeof (MPI_Status) * (size+1));
+    request = malloc (sizeof (MPI_Request) * (size+1));
 
     MPI_Type_get_extent (sendtype, &lb, &sizeofsendtype);
     MPI_Type_get_extent (recvtype, &lb, &sizeofrecvtype);
@@ -43,9 +43,9 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
         //MPI_Type_get_extent (recvtype, &lb, &sizeofrecvtype);
         for(i=0;i<size;i++) {
             offset = sizeofsendtype * sendcount * i;
-            MPI_Irecv( recvbuf+offset , recvcount , recvtype , i , 0 , MPI_COMM_WORLD , &request[i]);
+            MPI_Irecv( recvbuf+offset , recvcount , recvtype , i , 0 , MPI_COMM_WORLD , &request[i+1]);
         }
-        MPI_Waitall (size, request, status);
+        MPI_Waitall (size+1, request, status);
     }
 
     //broadcast
