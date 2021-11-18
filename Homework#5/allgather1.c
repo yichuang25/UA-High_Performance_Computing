@@ -40,7 +40,7 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
     MPI_Type_get_extent (recvtype, &lb, &sizeofrecvtype);
 
     if (rank == 0) {
-        MPI_Type_get_extent (recvtype, &lb, &sizeofrecvtype);
+        //MPI_Type_get_extent (recvtype, &lb, &sizeofrecvtype);
         for(i=0;i<size;i++) {
             offset = sizeofsendtype * sendcount * i;
             MPI_Irecv( recvbuf+offset , recvcount , recvtype , i , 0 , MPI_COMM_WORLD , &request[i]);

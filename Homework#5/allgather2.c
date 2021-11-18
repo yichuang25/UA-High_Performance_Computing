@@ -41,7 +41,7 @@ int allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf
     
     
     
-    MPI_Barrier(comm);
+    //MPI_Barrier(comm);
     
     /* send to other processor */
     for(i=0;(int)(pow(2,i))<size;i++) {
